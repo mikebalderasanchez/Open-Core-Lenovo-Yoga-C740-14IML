@@ -1,5 +1,7 @@
 # Open-Core-Lenovo-Yoga-C740-14IML
 Version estable y probada de Open Core para Lenovo Yoga C740 14IML | Dual Boot
+
+Este repositorio es una copia de [OpenCore-EFI-Laptop-Lenovo-Yoga-C740-14IML](https://github.com/ThrRip/OpenCore-EFI-Laptop-Lenovo-Yoga-C740-14IML) con algunas instrucciones extras para resolver problemas que surgieron en mi instalacion y para hacer un dualboot (Windows y macOS) **gracias @ThrRip**
 ## Especificaciones de la laptop usada
 | Dispositivo | Modelo |
 | -- | -- |
@@ -22,7 +24,8 @@ Version estable y probada de Open Core para Lenovo Yoga C740 14IML | Dual Boot
 ### Resuelto
 <details>
 <summary>Expandir/Contraer</summary>
-
+<br>
+  
 _Ordenados por fecha de descubrimiento, de más nuevos a más antiguos._
 
 - La aplicación Preferencias del sistema falla (o se congela o muestra el error "No se pudo cargar... el panel de preferencias") al intentar abrir los siguientes paneles:
@@ -46,3 +49,76 @@ _Ordenados por fecha de descubrimiento, de más nuevos a más antiguos._
   > Resuelto después de reordenar los SSDT.
 
 </details>
+
+## Instrucciones para resolver algunos problemas
+### Parcheando BIOS
+
+<details>
+  <summary>Expandir/Contraer</summary>
+<br>
+  
+**DVMT**
+
+Resulta que esta laptop viene con un DVMT (Tecnología de Memoria de Video Dinámica) de 32M, pero nosotros necesitamos 64M para arrancar macOS
+
+**CFG Lock**
+
+Tambien esta laptop viene con un bloqueo de cfg para la administración de energía nativa, por lo que tendremos que desactivarlo
+
+**Archivos Necesarios**
+
+[Descargar Aqui](https://www.mediafire.com/file/sn8fn4mz5lrh97t/InsydeH2OUVE.zip/file)
+
+1. Descomprimir el archivo zip en la raiz del disco local
+2. Abrir Teclado en Pantalla o conectar teclado externo (puede que tu teclado no funcione cuando edites la bios)
+3. Ejecutar WDFInst.exe como administrador
+4. Ejecutar H2OUVE-W-GUIx64.exe como administrador
+5. Ir a File y despues a Load Runtime 
+
+    ![](https://pic2.zhimg.com/v2-4f370d88328cd58460c4cb931de90451_r.jpg)
+
+6. Hacer click en Variable como se muestra en la imagen 
+
+    ![](https://pic3.zhimg.com/80/v2-aba9975a6df3819d82e7e7a9916eb32e_1440w.webp)
+
+7. Buscar SaSetup en la segunda columna de la izquierda, marque la casilla pequeña y haga doble clic
+
+    ![](https://pic4.zhimg.com/80/v2-4875bb44f1a782262fead4210da2f877_1440w.webp)
+  
+**Si no puede encontrarlo, no haga clic al azar. Si comete un error, no podrá iniciar la máquina. Solo cálmese y busque varias veces, y podrá encontrarlo.**
+
+8. Luego bloquee las coordenadas, sabemos que SaSetup modifica el dvmt, su dirección de desplazamiento es 0x107, lo que significa 100 filas y 07 columnas, el valor inicial de este lugar es 01, necesitamos cambiarlo a 02, después de la modificación, presione Entrar , como se muestra en la figura
+  
+    ![](https://pic1.zhimg.com/80/v2-d01efabdd91a33f4af40ad831aa0dd10_1440w.webp)
+
+9. De la misma forma seleccionamos CpuSetup, desbloqueamos el cfg lock, y cambiamos 01 en la fila 03 y columna 0E a 00, como se muestra en la figura
+  
+    ![](https://pic4.zhimg.com/80/v2-fa91af8964e651c54d7f64825b99dd57_1440w.webp)
+  
+10. Después de realizar los cambios, haga clic en el archivo y guarde.
+  
+    ![](https://pic1.zhimg.com/80/v2-6d2bb0fde9edb09d772b980dbc73cad0_1440w.webp)
+
+Hasta ahora, se han modificado dvmt y cfg lock, y ya podremos arrancar macOS
+  
+  **Notas**
+  
+  Si por alguna razon modificas algo mal en la bios, tranquilo, puedes aplicar esta solución
+  
+  1. Entra a la bios presionando F2 varias veces al iniciar la laptop (Puede que no veas nada y la pantalla no encienda)
+  2. Cuando la pantalla este en negro o entres a la bios, presiona F9 para restablecerla
+  3. Presiona F10 para guardar cambios
+  4. Listo, ahora intenta todos los pasos de nuevo al pie de la letra
+  
+  Si te interesa, me base en esta guia para los pasos [click aqui](https://zhuanlan.zhihu.com/p/266400995) (usa Google Traductor)
+ 
+
+</details>
+
+### Reset NVRAM
+
+En el repositorio original, no se incluye esta opción, por lo que tuve que agregarla en este repositorio
+
+Esta opción me fue muy util ya que me resulto que mi laptop no daba imagen, y lo unico que tuve que hacer es dar click a la derecha y darle enter antes de que entre a Windows y asi resetear la NVRAM, asimismo podras entrar a macOS
+
+### Dual Boot | Multi Boot
