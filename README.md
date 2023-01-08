@@ -121,4 +121,55 @@ En el repositorio original, no se incluye esta opción, por lo que tuve que agre
 
 Esta opción me fue muy util ya que me resulto que mi laptop no daba imagen, y lo unico que tuve que hacer es dar click a la derecha y darle enter antes de que entre a Windows y asi resetear la NVRAM, asimismo podras entrar a macOS
 
-### Dual Boot | Multi Boot
+### Dual Boot
+
+<details>
+<summary>Expandir/Contraer</summary>
+<br>
+
+**Necesarios**
+
+- Instalador de Windows 
+  - [Windows 10](https://www.microsoft.com/software-download/windows10)
+  - [Windows 11](https://www.microsoft.com/software-download/windows11)
+
+**Instrucciones**
+
+1. Entrar a macOS
+2. Agregar una particion en el disco donde instalaras Windows con formato exfat
+3. En el menu de Open Core seleccionar Windows
+4. Entrar a la instalacion de Windows y seleccionar la opción de Personalizada: instalar solo Windows (avanzado)
+
+    ![](https://www.softzone.es/app/uploads-softzone.es/2020/03/Actualizar-o-instalar-Windows-10-desde-cero.jpg)
+    
+5. Seleccionar la particion que creaste anteriormente para Windows y eliminarla
+
+    ![](https://www.softzone.es/app/uploads-softzone.es/2020/03/Elegir-disco-y-crear-particiones-para-instalar-Windows-768x576.jpg)
+    
+6. Salir del instalador
+7. Presionar "Reparar el equipo"
+8. Ir al cmd y seguir las siguientes instrucciones
+    - diskpart
+    - list disk
+    - select disk 0 (remplazar por el numero de disco en el que instalara windows)
+    - create partition efi size=100
+    - format quick fs=fat32 label="System"
+    - assign letter="S"
+    - create partition msr size=16
+    - create partition primary
+    - format quick fs=ntfs label="Windows"
+    - assign letter="W"
+    - list volume
+    - exit
+    - Si creo el instalador en Windows o eligio Windows 10
+        - dism /Get-WimInfo /WimFile:D:\sources\install.esd (replace D with USB drive letter)
+        - dism /Apply-Image /ImageFile:D:\sources\install.esd /Index:1 /ApplyDir:W:\ (replace D with USB drive letter)
+        - bcdboot W:\windows /s S: /f UEFI
+    - Si creo el instalador en macOS o eligio Windows 11
+        - dism /Get-WimInfo /WimFile:D:\Sources\install.wim (replace D with USB drive letter)
+        - dism /Apply-Image /ImageFile:D:\Sources\install.wim /Index:1 /ApplyDir:W:\ (replace D with USB drive letter)
+        - bcdboot W:\windows /s S: /f UEFI
+
+Video de YouTube en el que me base: [Click aqui](https://youtu.be/ztxHRGdX0Sw)
+
+</details>
