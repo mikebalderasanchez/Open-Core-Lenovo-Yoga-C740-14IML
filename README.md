@@ -121,6 +121,41 @@ En el repositorio original, no se incluye esta opción, por lo que tuve que agre
 
 Esta opción me fue muy util ya que me resulto que mi laptop no daba imagen, y lo unico que tuve que hacer es dar click a la derecha y darle enter antes de que entre a Windows y asi resetear la NVRAM, asimismo podras entrar a macOS
 
+### Creando medio de instalacion de macOS
+
+Para crear el medio de instalacion use dos dispisitivos de almacenamiento*
+
+**Necesarios**
+
+- Imagen RAW de Olarila [Click aqui](https://www.olarila.com/topic/6278-hackintosh-and-macintosh-olarila-vanilla-images-macos-installer/)
+- Balena etcher [Click aqui](https://www.balena.io/etcher)
+- USB de minimo 16 GB para macOS (USB 1)
+- USB para EFI (USB 2)
+
+**Instrucciones**
+1. Copiar la carpeta EFI a la USB 2
+2. Flashear la imagen RAW de olarila en la USB 1
+3. Bootear con la USB 2 y selecionar la USB de Olarila en el menu de Open Core
+
+### Instalando macOS
+
+<details>
+  <summary>Expandir/Contraer</summary>
+  <br>
+  
+  1. Entrar a la utilidad de discos
+  2. En visualizacion darle a mostrar todos los dispositivos
+  3. Borrar el disco donde instalara macOS
+      > - Si tiene un disco HDD seleccionar el formato Mac OS Plus (con registro)
+      > - Si tiene un disco SDD seleccionar el fomrato APFS
+  4. En esquema seleccionar Mapa de particiones GUID
+  5. Salir de la utilidad de discos
+  6. Entrar a Instalar macOS
+  7. Seleccionar el disco que acabas de borrar
+  
+</details>
+
+
 ### Dual Boot
 
 <details>
