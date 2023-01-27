@@ -127,6 +127,7 @@ Para crear el medio de instalacion use dos dispisitivos de almacenamiento*
 
 **Necesarios**
 
+- Carpeta EFI (esta en la seccion de versiones en este repositorio)
 - Imagen RAW de Olarila [Click aqui](https://www.olarila.com/topic/6278-hackintosh-and-macintosh-olarila-vanilla-images-macos-installer/)
 - Balena etcher [Click aqui](https://www.balena.io/etcher)
 - USB de minimo 16 GB para macOS (USB 1)
